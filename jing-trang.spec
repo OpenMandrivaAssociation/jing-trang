@@ -1,16 +1,20 @@
-%_javapackages_macros
+%{?_javapackages_macros:%_javapackages_macros}
 # TODO:
 # - Install dtdinst's schemas, XSL etc as non-doc and to system catalogs?
 # - Drop isorelax and xerces license texts and references to them because
 #   our package does not actually contain them?
 
-%if 0%{?fedora} >= 20 || 0%{?rhel} >= 7
+%if 0%{?fedora}
+%if 0%{?fedora} >= 20
+%global headless -headless
+%endif
+%else
 %global headless -headless
 %endif
 
 Name:           jing-trang
 Version:        20091111
-Release:        16.0%{?dist}
+Release:        15.0%{?dist}
 Summary:        Schema validation and conversion based on RELAX NG
 
 
@@ -32,7 +36,7 @@ Patch3:         %{name}-20091111-saxon93-716177.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-%if 0%{?rhel} && 0%{?rhel} < 7
+%if 0%{?rhel}
 BuildRequires:  ant-trax
 %else
 BuildRequires:  ant >= 1.8.2
@@ -171,3 +175,46 @@ rm -rf $RPM_BUILD_ROOT
 %doc dtdinst-%{version}/{*.{txt,html,rng,xsl},example}
 %{_bindir}/dtdinst
 %{_javadir}/dtdinst.jar
+
+
+%changelog
+* Fri Oct 25 2013 Ville Skyttä <ville.skytta@iki.fi> - 20091111-15
+- Depend on headless JRE where available.
+
+* Mon Aug  5 2013 Ville Skyttä <ville.skytta@iki.fi> - 20091111-14
+- BuildRequire ant instead of -trax in non-EL builds.
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20091111-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20091111-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20091111-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Wed Jan 11 2012 Ville Skyttä <ville.skytta@iki.fi> - 20091111-10
+- Tweak java-devel build dep for buildability without Java 1.6.
+- Fix build classpath with recent TestNG.
+
+* Fri Jun 24 2011 Ville Skyttä <ville.skytta@iki.fi> - 20091111-9
+- Apply upstream Saxon >= 9.3 patch (#716177).
+
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20091111-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Thu Dec  2 2010 Ville Skyttä <ville.skytta@iki.fi> - 20091111-7
+- Put Xalan instead of Saxon in build path (regression in -6).
+- Build with OpenJDK.
+
+* Tue Nov 30 2010 Ville Skyttä <ville.skytta@iki.fi> - 20091111-6
+- Address more comments/TODO's from #655601:
+- Patch test suite generation to use Xalan.
+- Include license texts in jing-javadoc.
+- Make datatype-sample buildable out of the box, drop prebuilt jar.
+
+* Mon Nov 29 2010 Ville Skyttä <ville.skytta@iki.fi> - 20091111-5
+- Simplify doc installation (#655601).
+
+* Sun Nov 28 2010 Ville Skyttä <ville.skytta@iki.fi> - 20091111-4
+- First Fedora build, combining my earlier separate jing and trang packages.
