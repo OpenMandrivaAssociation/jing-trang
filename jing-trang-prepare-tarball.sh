@@ -2,8 +2,8 @@
 
 set -e
 
-release=${1:-\
-    $(rpm -q --specfile --qf='%{VERSION}\n' jing-trang.spec | head -n 1)}
+release=\
+${1:-$(rpm -q --specfile --qf='%{VERSION}\n' jing-trang.spec | head -n 1)}
 
 rm -rf jing-trang-$release
 svn export http://jing-trang.googlecode.com/svn/tags/V$release \

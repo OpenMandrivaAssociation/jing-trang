@@ -4,20 +4,13 @@
 # - Drop isorelax and xerces license texts and references to them because
 #   our package does not actually contain them?
 
-%if 0%{?fedora}
-%if 0%{?fedora} >= 20
 %global headless -headless
-%endif
-%else
-%global headless -headless
-%endif
 
 Name:           jing-trang
-Version:        20091111
-Release:        15.0%{?dist}
+Version:        20131210
+Release:        2.1
 Summary:        Schema validation and conversion based on RELAX NG
-
-
+Group:          Text tools
 License:        BSD
 URL:            http://code.google.com/p/jing-trang/
 # Source0 generated with Source99, upstream does not distribute archives
@@ -27,16 +20,15 @@ Source99:       %{name}-prepare-tarball.sh
 # Applicable parts submitted upstream:
 # http://code.google.com/p/jing-trang/issues/detail?id=129
 # http://code.google.com/p/jing-trang/issues/detail?id=130
-Patch0:         %{name}-20091111-build.patch
+Patch0:         0001-Various-build-fixes.patch
 # Saxon "HE" doesn't work for this, no old Saxon available, details in #655601
-Patch1:         %{name}-20091111-xalan.patch
+Patch1:         0002-Use-Xalan-instead-of-Saxon-for-the-build-655601.patch
 Patch2:         %{name}-20091111-datatype-sample.patch
-# http://code.google.com/p/jing-trang/source/detail?r=2356, #716177
-Patch3:         %{name}-20091111-saxon93-716177.patch
+Patch3:		jing-trang-20131210-java8.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 7
 BuildRequires:  ant-trax
 %else
 BuildRequires:  ant >= 1.8.2
@@ -61,7 +53,6 @@ BuildRequires:  xml-commons-resolver
 
 %package     -n jing
 Summary:        RELAX NG validator in Java
-
 Requires:       jpackage-utils
 Requires:       java%{?headless} >= 1.5.0
 Requires:       relaxngDatatype
@@ -78,7 +69,7 @@ Language.
 
 %package     -n jing-javadoc
 Summary:        Javadoc API documentation for Jing
-
+Group:          Documentation
 Requires:       java-javadoc
 Requires:       relaxngDatatype-javadoc
 
@@ -87,7 +78,6 @@ Javadoc API documentation for Jing.
 
 %package     -n trang
 Summary:        Multi-format schema converter based on RELAX NG
-
 Requires:       jpackage-utils
 Requires:       java%{?headless} >= 1.5.0
 Requires:       relaxngDatatype
@@ -104,7 +94,6 @@ for output only, not for input.
 
 %package     -n dtdinst
 Summary:        XML DTD to XML instance format converter
-
 Requires:       jpackage-utils
 Requires:       java%{?headless} >= 1.5.0
 
@@ -116,15 +105,16 @@ format.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p0
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
+
 sed -i -e 's/\r//g' lib/isorelax.copying.txt
 find . -name "OldSaxon*.java" -delete # No "old" saxon available in Fedora
 
 
 %build
-CLASSPATH=$(build-classpath beust-jcommander xalan-j2 xalan-j2-serializer) \
+CLASSPATH=$(build-classpath beust-jcommander xalan-j2 xalan-j2-serializer saxon) \
 %ant -Dlib.dir=%{_javadir} -Dbuild.sysclasspath=last dist
 
 
@@ -178,6 +168,15 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun  9 2014 Ville Skyttä <ville.skytta@iki.fi> - 20131210-1
+- Update to 20131210
+
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20091111-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Mon Nov 25 2013 Ville Skyttä <ville.skytta@iki.fi> - 20091111-16
+- Fix build and depend on headless JRE on EL7 (Jan Pokorný).
+
 * Fri Oct 25 2013 Ville Skyttä <ville.skytta@iki.fi> - 20091111-15
 - Depend on headless JRE where available.
 

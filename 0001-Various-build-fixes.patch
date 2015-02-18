@@ -1,6 +1,28 @@
-diff -up jing-trang-20091111/build.xml~ jing-trang-20091111/build.xml
---- jing-trang-20091111/build.xml~	2009-02-01 06:49:17.000000000 +0200
-+++ jing-trang-20091111/build.xml	2010-11-30 22:04:06.391536980 +0200
+From 212c793fe0f4b9e352e2ae9949beb187e77abe68 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta@iki.fi>
+Date: Mon, 9 Jun 2014 09:54:16 +0300
+Subject: [PATCH 1/2] Various build fixes
+
+---
+ build.xml                | 19 ++++++++-----------
+ build.xsl                | 28 ++++++++++++++++++----------
+ mod/catalog/mod.xml      |  2 +-
+ mod/datatype/mod.xml     |  1 +
+ mod/jing/mod.xml         |  2 --
+ mod/pattern/mod.xml      |  1 +
+ mod/regex/mod.xml        |  2 +-
+ mod/rng-jaxp/mod.xml     |  1 +
+ mod/rng-validate/mod.xml |  2 +-
+ mod/schematron/mod.xml   |  8 ++------
+ mod/trang/mod.xml        |  3 +--
+ mod/xerces/mod.xml       |  2 +-
+ mod/xsd-datatype/mod.xml |  1 +
+ 13 files changed, 37 insertions(+), 35 deletions(-)
+
+diff --git a/build.xml b/build.xml
+index a2bc499..ee0f061 100644
+--- a/build.xml
++++ b/build.xml
 @@ -145,22 +145,19 @@
  
  <target name="javadoc" depends="init">
@@ -56,9 +78,10 @@ diff -up jing-trang-20091111/build.xml~ jing-trang-20091111/build.xml
    <gcupload username="${googlecode.username}" 
              password="${googlecode.password}" 
              projectname="jing-trang" 
-diff -up jing-trang-20091111/build.xsl~ jing-trang-20091111/build.xsl
---- jing-trang-20091111/build.xsl~	2009-02-01 06:49:17.000000000 +0200
-+++ jing-trang-20091111/build.xsl	2010-11-30 22:37:55.635536968 +0200
+diff --git a/build.xsl b/build.xsl
+index d76508f..e084fca 100644
+--- a/build.xsl
++++ b/build.xsl
 @@ -10,12 +10,12 @@
    <project>
      <xmlproperty file="version.xml"/>
@@ -140,9 +163,10 @@ diff -up jing-trang-20091111/build.xsl~ jing-trang-20091111/build.xsl
        </classpath>
      </testng>
    </target>
-diff -up jing-trang-20091111/mod/catalog/mod.xml~ jing-trang-20091111/mod/catalog/mod.xml
---- jing-trang-20091111/mod/catalog/mod.xml~	2008-12-16 05:34:48.000000000 +0200
-+++ jing-trang-20091111/mod/catalog/mod.xml	2010-11-30 22:04:06.397536844 +0200
+diff --git a/mod/catalog/mod.xml b/mod/catalog/mod.xml
+index c8e2feb..5398646 100644
+--- a/mod/catalog/mod.xml
++++ b/mod/catalog/mod.xml
 @@ -3,5 +3,5 @@
    <test name="unit" type="testng"/>
    <depends module="util"/>
@@ -150,18 +174,20 @@ diff -up jing-trang-20091111/mod/catalog/mod.xml~ jing-trang-20091111/mod/catalo
 -  <depends lib="resolver"/>
 +  <depends lib="xml-commons-resolver"/>
  </module>
-diff -up jing-trang-20091111/mod/datatype/mod.xml~ jing-trang-20091111/mod/datatype/mod.xml
---- jing-trang-20091111/mod/datatype/mod.xml~	2008-10-31 11:51:32.000000000 +0200
-+++ jing-trang-20091111/mod/datatype/mod.xml	2010-11-30 22:04:06.398536914 +0200
+diff --git a/mod/datatype/mod.xml b/mod/datatype/mod.xml
+index cd79499..cdb420a 100644
+--- a/mod/datatype/mod.xml
++++ b/mod/datatype/mod.xml
 @@ -1,4 +1,5 @@
  <module>
    <depends module="util"/>
 +  <depends lib="relaxngDatatype"/>
    <compile/>
  </module>
-diff -up jing-trang-20091111/mod/jing/mod.xml~ jing-trang-20091111/mod/jing/mod.xml
---- jing-trang-20091111/mod/jing/mod.xml~	2009-11-11 14:24:06.000000000 +0200
-+++ jing-trang-20091111/mod/jing/mod.xml	2010-11-30 22:04:06.398536914 +0200
+diff --git a/mod/jing/mod.xml b/mod/jing/mod.xml
+index 86583f8..8b2ec82 100644
+--- a/mod/jing/mod.xml
++++ b/mod/jing/mod.xml
 @@ -21,8 +21,6 @@
    <jar>
      <manifest>
@@ -171,9 +197,10 @@ diff -up jing-trang-20091111/mod/jing/mod.xml~ jing-trang-20091111/mod/jing/mod.
      </manifest>
      <service type="com.thaiopensource.datatype.xsd.regex.RegexEngine"/>
      <service type="org.relaxng.datatype.DatatypeLibraryFactory"/>
-diff -up jing-trang-20091111/mod/pattern/mod.xml~ jing-trang-20091111/mod/pattern/mod.xml
---- jing-trang-20091111/mod/pattern/mod.xml~	2008-12-07 05:37:23.000000000 +0200
-+++ jing-trang-20091111/mod/pattern/mod.xml	2010-11-30 22:04:06.399536705 +0200
+diff --git a/mod/pattern/mod.xml b/mod/pattern/mod.xml
+index 777f484..875f1cb 100644
+--- a/mod/pattern/mod.xml
++++ b/mod/pattern/mod.xml
 @@ -3,6 +3,7 @@
    <depends module="resolver"/>
    <depends module="datatype"/>
@@ -182,9 +209,10 @@ diff -up jing-trang-20091111/mod/pattern/mod.xml~ jing-trang-20091111/mod/patter
    <compile test="yes"/>
    <test name="unit" type="testng"/>
  </module>
-diff -up jing-trang-20091111/mod/regex/mod.xml~ jing-trang-20091111/mod/regex/mod.xml
---- jing-trang-20091111/mod/regex/mod.xml~	2008-11-16 08:53:45.000000000 +0200
-+++ jing-trang-20091111/mod/regex/mod.xml	2010-11-30 22:04:06.399536705 +0200
+diff --git a/mod/regex/mod.xml b/mod/regex/mod.xml
+index 3d1f73f..b682d6d 100644
+--- a/mod/regex/mod.xml
++++ b/mod/regex/mod.xml
 @@ -1,6 +1,6 @@
  <module>
    <depends module="util"/>
@@ -193,9 +221,10 @@ diff -up jing-trang-20091111/mod/regex/mod.xml~ jing-trang-20091111/mod/regex/mo
    <compile test="yes"/>
    <test name="xerces" type="java"
  	class="com.thaiopensource.datatype.xsd.regex.test.TestDriver">
-diff -up jing-trang-20091111/mod/rng-jaxp/mod.xml~ jing-trang-20091111/mod/rng-jaxp/mod.xml
---- jing-trang-20091111/mod/rng-jaxp/mod.xml~	2008-12-07 05:37:23.000000000 +0200
-+++ jing-trang-20091111/mod/rng-jaxp/mod.xml	2010-11-30 22:04:06.400536775 +0200
+diff --git a/mod/rng-jaxp/mod.xml b/mod/rng-jaxp/mod.xml
+index 10a8c6d..48c5d8c 100644
+--- a/mod/rng-jaxp/mod.xml
++++ b/mod/rng-jaxp/mod.xml
 @@ -7,6 +7,7 @@
    <depends module="rng-parse"/>
    <depends module="pattern"/>
@@ -204,20 +233,23 @@ diff -up jing-trang-20091111/mod/rng-jaxp/mod.xml~ jing-trang-20091111/mod/rng-j
    <compile test="yes"/>
    <test name="unit" type="testng"/>
  </module>
-diff -up jing-trang-20091111/mod/rng-validate/mod.xml~ jing-trang-20091111/mod/rng-validate/mod.xml
---- jing-trang-20091111/mod/rng-validate/mod.xml~	2008-12-16 05:38:57.000000000 +0200
-+++ jing-trang-20091111/mod/rng-validate/mod.xml	2010-11-30 22:04:06.401538521 +0200
-@@ -7,6 +7,7 @@
+diff --git a/mod/rng-validate/mod.xml b/mod/rng-validate/mod.xml
+index 109543b..b05b996 100644
+--- a/mod/rng-validate/mod.xml
++++ b/mod/rng-validate/mod.xml
+@@ -7,7 +7,7 @@
    <depends module="pattern"/>
    <depends module="validate"/>
    <depends lib="ant"/>
+-  <depends lib="resolver"/>
 +  <depends lib="xml-commons-resolver"/>
    <test name="spec" type="validate" schema="eg/testSuite.rng"/>
    <compile/>
    <version package="com/thaiopensource/relaxng/util"/>
-diff -up jing-trang-20091111/mod/schematron/mod.xml~ jing-trang-20091111/mod/schematron/mod.xml
---- jing-trang-20091111/mod/schematron/mod.xml~	2009-02-01 06:49:17.000000000 +0200
-+++ jing-trang-20091111/mod/schematron/mod.xml	2010-11-30 22:04:06.407540061 +0200
+diff --git a/mod/schematron/mod.xml b/mod/schematron/mod.xml
+index 51d85cd..3786625 100644
+--- a/mod/schematron/mod.xml
++++ b/mod/schematron/mod.xml
 @@ -3,15 +3,11 @@
    <depends module="resolver"/>
    <depends module="validate"/>
@@ -236,13 +268,15 @@ diff -up jing-trang-20091111/mod/schematron/mod.xml~ jing-trang-20091111/mod/sch
    <test name="xalan" in="mod/schematron/test/schematrontest.xml"
  	type="validate" schema="test/schematrontest.nrl"
  	lib="xalan"/>
-diff -up jing-trang-20091111/mod/trang/mod.xml~ jing-trang-20091111/mod/trang/mod.xml
---- jing-trang-20091111/mod/trang/mod.xml~	2008-12-16 11:48:23.000000000 +0200
-+++ jing-trang-20091111/mod/trang/mod.xml	2010-11-30 22:04:06.408537058 +0200
-@@ -13,12 +13,12 @@
+diff --git a/mod/trang/mod.xml b/mod/trang/mod.xml
+index 69b5cc0..fa2d6d0 100644
+--- a/mod/trang/mod.xml
++++ b/mod/trang/mod.xml
+@@ -13,13 +13,12 @@
    <depends module="convert-to-xsd"/>
    <depends module="convert-from-dtd"/>
    <depends module="convert-to-dtd"/>
+-  <depends lib="resolver"/>
 +  <depends lib="xml-commons-resolver"/>
    <compile/>
    <version package="com/thaiopensource/relaxng/translate"/>
@@ -253,9 +287,10 @@ diff -up jing-trang-20091111/mod/trang/mod.xml~ jing-trang-20091111/mod/trang/mo
      </manifest>
      <service type="com.thaiopensource.datatype.xsd.regex.RegexEngine">
        <provider classname="com.thaiopensource.datatype.xsd.regex.xerces2.RegexEngineImpl"/>
-diff -up jing-trang-20091111/mod/xerces/mod.xml~ jing-trang-20091111/mod/xerces/mod.xml
---- jing-trang-20091111/mod/xerces/mod.xml~	2008-11-16 08:53:45.000000000 +0200
-+++ jing-trang-20091111/mod/xerces/mod.xml	2010-11-30 22:04:06.414536082 +0200
+diff --git a/mod/xerces/mod.xml b/mod/xerces/mod.xml
+index b7dc603..56bc85f 100644
+--- a/mod/xerces/mod.xml
++++ b/mod/xerces/mod.xml
 @@ -1,7 +1,7 @@
  <module>
    <depends module="util"/>
@@ -265,9 +300,10 @@ diff -up jing-trang-20091111/mod/xerces/mod.xml~ jing-trang-20091111/mod/xerces/
    <compile/>
    <service type="com.thaiopensource.validate.SchemaReaderFactory">
      <provider classname="com.thaiopensource.validate.xerces.XsdSchemaReaderFactory"/>
-diff -up jing-trang-20091111/mod/xsd-datatype/mod.xml~ jing-trang-20091111/mod/xsd-datatype/mod.xml
---- jing-trang-20091111/mod/xsd-datatype/mod.xml~	2008-12-11 03:34:05.000000000 +0200
-+++ jing-trang-20091111/mod/xsd-datatype/mod.xml	2010-11-30 22:04:06.415537270 +0200
+diff --git a/mod/xsd-datatype/mod.xml b/mod/xsd-datatype/mod.xml
+index f81eb3c..cc7645b 100644
+--- a/mod/xsd-datatype/mod.xml
++++ b/mod/xsd-datatype/mod.xml
 @@ -2,6 +2,7 @@
    <depends module="util"/>
    <depends module="datatype"/>
@@ -276,3 +312,6 @@ diff -up jing-trang-20091111/mod/xsd-datatype/mod.xml~ jing-trang-20091111/mod/x
    <test name="xsd" type="validate" transform="xsdtest.xsl" schema="test/xsdtest.rnc"/>
    <test name="unit" type="testng"/>
    <compile test="yes"/>
+-- 
+1.9.3
+
