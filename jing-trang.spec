@@ -8,7 +8,7 @@
 
 Name:           jing-trang
 Version:        20131210
-Release:        2.1
+Release:        2.2
 Summary:        Schema validation and conversion based on RELAX NG
 Group:          Text tools
 License:        BSD
