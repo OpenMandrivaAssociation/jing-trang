@@ -12,7 +12,7 @@ Release:        2.3
 Summary:        Schema validation and conversion based on RELAX NG
 Group:          Text tools
 License:        BSD
-URL:            http://code.google.com/p/jing-trang/
+URL:            https://code.google.com/p/jing-trang/
 # Source0 generated with Source99, upstream does not distribute archives
 # containing the complete build system
 Source0:        %{name}-%{version}.tar.xz
